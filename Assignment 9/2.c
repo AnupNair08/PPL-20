@@ -8,11 +8,14 @@ pthread_t goodbye;
 pthread_mutex_t lock;
 
 void *printfunc(void *vargp){
+    while(1){
     pthread_mutex_lock(&lock);
     printf("---------------------Thread started--------------------\n\n");
     printf("%s\n\n",(char *)vargp);
     printf("---------------------Thread ended-----------------------\n\n");
     pthread_mutex_unlock(&lock);
+    sleep(1);
+    }
 }
 
 int main(){
