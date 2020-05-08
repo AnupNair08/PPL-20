@@ -1,3 +1,4 @@
+#Program to find first 10 pairs of amicable numbers
 from math import sqrt
 def sod(a):
     sum = 0

@@ -1,6 +1,6 @@
+#Program to display a rolling dice simulator
 import tkinter
 import random
-
 
 win = tkinter.Tk()
 
@@ -14,8 +14,5 @@ b = tkinter.Button(win,text = "Roll",command = Roll)
 t = tkinter.Text(win,height = 2, width = 5)
 b.pack()
 t.pack()
-
-
-
 
 win.mainloop() 

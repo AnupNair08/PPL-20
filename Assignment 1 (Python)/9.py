@@ -1,3 +1,4 @@
+#Program to display first 10 harmonic divisor numbers
 from math import sqrt
 def div(a):
     num = 0

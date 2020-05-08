@@ -1,67 +1,67 @@
+//Program to display a timer using three concurrent threads
 #include<stdio.h>
 #include<pthread.h>
 #include<unistd.h>
 
+
+//All 4 threads run concurrently.
 pthread_t second;
-pthread_t minutes;
-pthread_t hours;
-
-pthread_mutex_t lock1;
-pthread_mutex_t lock2;
-
-void *cal_time(void *vargp){
-    int i = 0;
-    int m = 0;
-    int h = 0;
+pthread_t minute;
+pthread_t hour;
+pthread_t print;
+int h = 0;
+int m = 0;
+int s = -1;
+//Seconds and minutes are the shared resources among all the three threads.
+//The seconds thread updates it after every second and it is tracked by hours and minutes thread
+void *cal_hour(void *vargp){
     while(1){
-        pthread_mutex_lock(&lock1);
-        printf("%d : %d : %d\n",h,m,i);
-        sleep(1);
-        i++;
-        if(i == 60) {
-            i = 0;
-            m += 1;
-            if(m == 60){
-                m = 0;
-                h += 1;
-            }    
+        if(m == 60){
+            h += 1;
+            m = 0;
         }
-        pthread_mutex_unlock(&lock1);
     }
-    return NULL;
 }
 
+void *cal_min(void *vargp){
+        while(1){
+        if( s == 60){
+            m += 1;
+            s = 0;
+            if(m == 60) m = 0;
+        }
+        }
+}
+
+void *cal_sec(void *vargp){
+    while(1){
+        s++;
+        sleep(1);
+    }
+}
+
+void *print_time(void *vargp){
+    while(1){
+        sleep(1);
+        printf("%d : %d : %d\n",h,m,s%60);
+    }
+}
 
 int main(){
-    if(pthread_mutex_init(&lock1,NULL) != 0 && pthread_mutex_init(&lock2,NULL) != 0){
-        printf("Mutex initialization failed.\n");
-        return 0;
-    }
-    int s = 0;
-    int m = 0;
-    int h = 0;
-    
-    int err = pthread_create(&second,NULL,&cal_time,&s);
-    if(err != 0){
-        printf("Thread initialization failed.\n");
-        return 0;
-    }
+    printf("Starting Timer..\n");
+    printf("HR: MM: SS..\n");
+    sleep(1);
 
-    // err = pthread_create(&minutes,NULL,&cal_time,&s);
-    // if(err != 0){
-    //     printf("Thread initialization failed.\n");
-    //     return 0;
-    // }
-
-    // err = pthread_create(&hours,NULL,&cal_time,&s);
-    // if(err != 0){
-    //     printf("Thread initialization failed.\n");
-    //     return 0;
-    // }
+    pthread_create(&second,NULL,&cal_sec,NULL);
+    pthread_create(&minute,NULL,&cal_min,NULL);
+    pthread_create(&hour,NULL,&cal_hour,NULL);
+    pthread_create(&print,NULL,&print_time,NULL);
 
     pthread_join(second,NULL);
-    pthread_mutex_destroy(&lock1);
-    pthread_mutex_destroy(&lock2);
+    pthread_join(minute,NULL);
+    pthread_join(hour,NULL);
+    pthread_join(print,NULL);
 
+    pthread_exit(NULL);
     return 0;
 }

@@ -1,5 +1,4 @@
-#l is the left bank and r is the right bank of river
-#Goal is to move everyone from right to left bank i.e. empty the right list
+#Program to solve goat tiger and grass puzzle
 print("Solution to the puzzle is:")
 r = ['tiger','grass','goat']
 l = []
@@ -24,7 +23,6 @@ while r != []:
             r = [l.pop(-1)] + r
         else:
             logs.append("Move " + temp[i] + " from right to left")
-            # print(logs[-1])
             break
     if r == []:
         break

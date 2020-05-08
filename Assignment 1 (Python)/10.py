@@ -1,3 +1,4 @@
+#Program to display numbers in a Geometric Series
 a = int(input('Enter the first element : '))
 r = int(input('Enter the common ratio : '))
 

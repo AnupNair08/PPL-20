@@ -1,3 +1,4 @@
+#Program for LU decomposition of a matrix
 import numpy as np
 def lu(mat,n):
     l = [[0 for x in range(n)] for y in range(n)]

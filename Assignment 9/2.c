@@ -1,3 +1,5 @@
+//Program that uses two thread to display hello and goodbye
+
 #include<stdio.h>
 #include<unistd.h>
 #include<pthread.h>
@@ -9,12 +11,12 @@ pthread_mutex_t lock;
 
 void *printfunc(void *vargp){
     while(1){
-    pthread_mutex_lock(&lock);
-    printf("---------------------Thread started--------------------\n\n");
-    printf("%s\n\n",(char *)vargp);
-    printf("---------------------Thread ended-----------------------\n\n");
-    pthread_mutex_unlock(&lock);
-    sleep(1);
+        pthread_mutex_lock(&lock);
+        printf("---------------------Thread started--------------------\n\n");
+        printf("%s\n\n",(char *)vargp);
+        printf("---------------------Thread ended-----------------------\n\n");
+        pthread_mutex_unlock(&lock);
+        sleep(1);
     }
 }
 
@@ -41,4 +43,5 @@ int main(){
     pthread_join(hello,NULL);
     pthread_join(goodbye,NULL);
     pthread_mutex_destroy(&lock);
+    pthread_exit(NULL);
 }

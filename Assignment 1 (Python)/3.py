@@ -1,4 +1,4 @@
-  
+#Program to block certain websites  
 import time 
 from datetime import datetime as dt 
   
