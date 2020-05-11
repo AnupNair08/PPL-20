@@ -30,6 +30,30 @@ flight(iberia,london,barcelona,220,240).
 flight(iberia,valencia,barcelona,110,75).
 flight(iberia,valencia,malaga,80,120).
 
+/*Bidirectional database
+/* madrid to toronto*/
+flight(united,madrid,toronto,950,540).
+flight(iberia,madrid,toronto,900,480).
+flight(aircanada,madrid,toronto,900,480).
+/*london to toronto*/
+flight(aircanada,london,toronto,500,360).
+flight(united,london,toronto,650,420).
+/*barcelona to madrid*/
+flight(aircanada,barcelona,madrid,100,60).
+flight(iberia,barcelona,madrid,120,65).
+
+/*valencia to madrid*/
+flight(iberia,valencia,madrid,40,50).
+/*malaga to madrid*/
+flight(iberia,malaga,madrid,50,60).
+
+/*toulouse to paris*/
+flight(united,toulouse,paris,35,120).
+
+flight(iberia,barcelona,london,220,240).
+flight(iberia,barcelona,valencia,110,75).
+flight(iberia,malaga,valencia,80,120).
+
 
 
 
