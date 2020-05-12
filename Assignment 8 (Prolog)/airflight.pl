@@ -58,17 +58,19 @@ flight(iberia,malaga,valencia,80,120).
 
 
 /*Gets all the cities in the database*/
-airport(X,Y,Z) :- city(X,Y,Z). 
+airport(X,Y,Z) :- city(X,Y,Z),
+                write('Airport tax is $'),
+                write(Y),
+                write('\nMinimum security delay is '),
+                write(Z),
+                write(' min\n').
+
 
 /*Displays whether X and Y are directly connected or not. If yes displays the name of one of the direct flights*/
 direct(X,Y) :- (
-    flight(Z,X,Y,_,_)->
-    write('Direct flight from '),
-    write(X),
-    write(' to '),
-    write(Y),
-    write(' is '),
-    write(Z),
+    flight(Z,X,Y,_,_),
+    write('Direct flight is '),
+    write(Z), 
     write('\n')
 ).
 
@@ -77,20 +79,24 @@ df(X,Y,Z) :- flight(Z,X,Y,_,_).
 
 /*Query that checks for flights that are classified as cheap */
 cheapflight(X,Y):-
-    flight(Z,X,Y,P,_) , <(P,400) ->
+    flight(Z,X,Y,P,_) , <(P,400),
     write('Flight with price less than $400 is : '),
-    write(Z).
+    write(Z),
+    write(' with price $'),
+    write(P).
 
 /*Query that checks if it is possible to go between two cities in two flights*/
 twoflight(X,Y) :- direct(X,Z) , direct(Z,Y).
 
 /*Query to check if there is a preferable flight between X,Y */
 prefer(X,Y) :- (
-    flight(Z,X,Y,P,_) , (<(P,400) ; =(Z,'aircanada')) ->
+    flight(Z,X,Y,P,_) , (<(P,400) ; ==(Z,'aircanada')),
+    write('\nPreferable flight found is : '),
     write(Z)
 ).
 
 /*Query to check if there are united and aircanada flights between X and Y*/
 check(X,Y):-(
-    flight(Z,X,Y,_,_) , (=(Z,'united'))-> flight(Z,X,Y,_,_)
+    write('\nCities which have both united and aircanada flights are :'),
+    flight(Z,X,Y,_,_) , (==(Z,'united')) ,  (flight(W,X,Y,_,_) , ==(W,'aircanada'))
 ).
