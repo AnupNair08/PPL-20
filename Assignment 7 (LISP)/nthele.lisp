@@ -4,9 +4,9 @@
     if( = n 1)
     (first x)
     (getX (- n 1) (rest x ))
+    
 )
 )
-
 (princ "Enter the list : ")
 (setq x (read-from-string (concatenate 'string "(" (read-line) ")")))
 (princ "Enter n : ")

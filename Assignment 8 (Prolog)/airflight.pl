@@ -96,7 +96,9 @@ twoflight(X,Y) :- direct(X,Z) , direct(Z,Y).
 prefer(X,Y) :- (
     flight(Z,X,Y,P,_) , (<(P,400) ; ==(Z,'aircanada')),
     write('\nPreferable flight found is : '),
-    write(Z)
+    write(Z),
+    write('\nWith price of $'),
+    write(P)
 ).
 
 /*Query to check if there are united and aircanada flights between X and Y*/

@@ -3,11 +3,12 @@
     (setq res 1)
     (loop for i from 1 to x
         do(
-            setq res (* res i) 
+            setq res (* res i)
         )
     )
     res
-)
+    )
+    
 (princ "Enter a number : ")
 (setq x (read))
 (princ "Factorial of entered number is : ")

@@ -1,11 +1,11 @@
 #Requirements 
-#Tkinter , PIL, turtle ,Ghostscript
+#Tkinter , PIL
 from tkinter import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from tkinter import ttk, colorchooser
+from PIL import Image,ImageTk
 from tkinter.ttk import Style
-import turtle
-import PIL.Image
+import os
 
 class main:
     def __init__(self,win):
@@ -72,23 +72,22 @@ class main:
     #Clears the content of the screen
     def clear(self):
         self.c.config(background = 'white')
+        self.bg = 'white'
         self.c.delete(ALL)
     
     #Utility function for palette
     def setfg(self,color):
         self.fg = color
         
-   
 
     #Method to dislpay all the sub widgets on the canvas    
     def draw(self):
         
-#         def load():
-#             filename = askopenfilename(title="Select a Graphics File")
-#             pic = PhotoImage(file = filename)
-#             d = self.c.create_image(2,2,image = pic,anchor = NW)
-#             self.c.itemconfig(d, image=pic)
-# #             self.c.config(background = 'grey')
+        def load():
+            filename = askopenfilename()
+            img = Image.open(filename)
+            self.c.image = ImageTk.PhotoImage(img)
+            self.c.create_image(0,0, image = self.c.image, anchor = 'nw')
         
         #Save function
         def write(canvas,fileName):
@@ -99,18 +98,18 @@ class main:
         
         def save():
             filename = asksaveasfilename(title="Save Pictures As...")
-            write(self.c,filename)
+            self.c.postscript(file = filename + '.eps') 
+            img = Image.open(filename + '.eps') 
+            img.save(filename + '.png', 'png')
+            img.close()
+            os.remove(filename + '.eps')
 
 
         #Menu bar
         bar = Menu(self.win)
-        file_menu = Menu(bar, tearoff=0)
-
-        file_menu.add_command(label="New",command = self.clear)
-#         file_menu.add_command(label="Load...",command = load)
-        file_menu.add_command(label="Save As...",command = save)
-        
-        bar.add_cascade(label="File", menu=file_menu)
+        bar.add_cascade(label="New", command = self.clear)
+        bar.add_cascade(label="Open",command = load)
+        bar.add_cascade(label="Save as",command = save)
         self.win.config(menu=bar)
         
         #Canvas
@@ -122,35 +121,35 @@ class main:
         self.sideBar.pack(side=RIGHT, fill=BOTH)
        
         #Buttons
-        self.b1 = Button(self.sideBar,text = 'Exit',command = self.win.destroy)
+        self.b1 = ttk.Button(self.sideBar,text = 'Exit',command = self.win.destroy)
         self.b1.pack()
-        self.b2 = Button(self.sideBar,text = 'Clear',command = self.clear)
+        self.b2 = ttk.Button(self.sideBar,text = 'Clear',command = self.clear)
         self.b2.pack()
         
-        self.eraser = Button(self.sideBar,text = 'Eraser',command = self.set_eraser)
+        self.eraser = ttk.Button(self.sideBar,text = 'Eraser',command = self.set_eraser)
         self.eraser.pack()
-        self.brush = Button(self.sideBar,text = 'Brush',command = self.set_brush)
+        self.brush = ttk.Button(self.sideBar,text = 'Brush',command = self.set_brush)
         self.brush.pack()
         
-        self.color = Button(self.sideBar, text = "Pick Pen Color" ,command=self.getPenColor)
+        self.color = ttk.Button(self.sideBar, text = "Pen Color" ,command=self.getPenColor)
         self.color.pack()
         
-        self.fill = Button(self.sideBar, text = "Fill BG", command=self.fillbg)
+        self.fill = ttk.Button(self.sideBar, text = "Fill BG", command=self.fillbg)
         self.fill.pack()
         
         
         #Color Pallete
         self.colors = Canvas(self.sideBar,width = 320,height = 200 , bg = 'white')
-        self.colors.pack()
+        self.colors.pack(pady = 80)
             
         self.red = Button(self.colors,text = " " ,background = 'red' , height = 1,width = 1,command = lambda : self.setfg('red'))
-        self.red.grid(row = 1,column = 1)
+        self.red.grid(row = 1,column = 1,padx = 5)
         
         self.red = Button(self.colors,text = " " ,background = 'blue' , height = 1,width = 1,command = lambda :self.setfg('blue'))
-        self.red.grid(row = 1,column = 2)
+        self.red.grid(row = 1,column = 2,padx = 5)
         
         self.red = Button(self.colors,text = " " ,background = 'yellow', height = 1,width = 1,command =lambda : self.setfg('yellow'))
-        self.red.grid(row = 1,column = 3)
+        self.red.grid(row = 1,column = 3,pady = 4)
         
         self.red = Button(self.colors,text = " " ,background = 'green', height = 1,width = 1,command =lambda : self.setfg('green'))
         self.red.grid(row = 2,column = 1)
@@ -159,7 +158,7 @@ class main:
         self.red.grid(row = 2,column = 2)
         
         self.red = Button(self.colors,text = " " ,background = 'orange', height = 1,width = 1,command =lambda : self.setfg('orange'))
-        self.red.grid(row = 2,column = 3)
+        self.red.grid(row = 2,column = 3,pady = 4)
         
         self.red = Button(self.colors,text = " " ,background = 'misty rose' , height = 1,width = 1,command =lambda : self.setfg('misty rose'))
         self.red.grid(row = 3,column = 1)
@@ -168,7 +167,7 @@ class main:
         self.red.grid(row = 3,column = 2)
         
         self.red = Button(self.colors,text = " " ,background = 'red4', height = 1,width = 1,command =lambda : self.setfg('red4'))
-        self.red.grid(row = 3,column = 3)
+        self.red.grid(row = 3,column = 3,pady = 4)
         
         self.red = Button(self.colors,text = " " ,background = 'lime green', height = 1,width = 1,command =lambda : self.setfg('lime green'))
         self.red.grid(row = 4,column = 1)
@@ -177,12 +176,11 @@ class main:
         self.red.grid(row = 4,column = 2)
         
         self.red = Button(self.colors,text = " " ,background = 'gray44', height = 1,width = 1,command =lambda : self.setfg('gray44'))
-        self.red.grid(row = 4,column = 3)
+        self.red.grid(row = 4,column = 3,padx = 5,pady = 4)
         
 #Main program to run the application
 if __name__ == '__main__':
     win = Tk()
     main(win)
-    
     win.title('PyPaint')
     win.mainloop()

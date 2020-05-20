@@ -1,23 +1,21 @@
-#include <stdio.h>
+#include<stdio.h>
+#include<unistd.h>
 
-void secretFunction()
-{
-    printf("Congratulations!\n");
-    printf("You have entered in the secret function!\n");
+void virus(){
+    char *args[2];
+    args[0] = "/bin/sh";
+    args[1] = NULL;
+    execve(args[0],args,NULL);
+}
+int exploit(){
+    int a[1] = {5};
+    a[1] = 10;
+    a[2] = 0x00000000;
+    a[3] = 0x0800064a;
+    return a[0];
 }
 
-void echo()
-{
-    char buffer[20];
-
-    printf("Enter some text:\n");
-    scanf("%s", buffer);
-    printf("You entered: %s\n", buffer);    
-}
-
-int main()
-{
-    echo();
-
+int main(){
+    exploit();
     return 0;
 }
